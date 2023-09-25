@@ -19,11 +19,24 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION()
+	virtual void PrintString(); 
+
+public:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera")
+	TObjectPtr<class UCameraComponent> m_Camera;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera")
+	TObjectPtr<class USpringArmComponent> m_CameraArm;
+
+	//UPROPERTY(EditAnywhere,Category = "Input")
+	//TSoftObjectPtr<UInputMappingContext> InputMappingContext;
+	
 };
