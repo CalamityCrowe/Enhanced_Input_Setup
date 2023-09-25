@@ -26,20 +26,23 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION()
+	UFUNCTION() // this is used to tag a function for getting used for the inputs or if it needs to be used in the editor somewhere
 		virtual void PrintString();
 
 public:
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera")
-		TObjectPtr<class UCameraComponent> m_Camera;
+	// any object that has class added in front of it gets the header included later in the cpp file to reduce overhead costs
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera") // this is used to say that the editor can see the object ot make it so they can edit it depending on the parameters passed in
+		TObjectPtr<class UCameraComponent> m_Camera;		// this is how pointers for objects on an actor should be defined
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera")
 		TObjectPtr<class USpringArmComponent> m_CameraArm;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
-		class UInputMappingContext* InputMappingContext;
+		class UInputMappingContext* InputMappingContext; // this gets assigned in the editor for the mapping context
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
-		class UInputConfigData* InputActions; 
+		class UInputConfigData* InputActions; // this is a custom data config that holds a list of pointers that will get assigned in the engine to pull the input actions in
 
 };

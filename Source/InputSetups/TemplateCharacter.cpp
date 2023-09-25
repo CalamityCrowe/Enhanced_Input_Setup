@@ -4,8 +4,12 @@
 #include "TemplateCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "InputConfigData.h"
+#include "InputConfigData.h" // this is the custom input config includes
 
+ //these four are used for the files relevant to the Enhanced input system
+ //UProject and build.cs need to be edited so it knows about these files
+ //UPROJECT needs to know about the plugin to know what one to enable
+ //build.cs needs to know about the dependencies so it can link them
 #include "Components/InputComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -47,44 +51,52 @@ void ATemplateCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	APlayerController* PC = Cast<APlayerController>(GetController());
+	APlayerController* PC = Cast<APlayerController>(GetController()); // gets an instance of the player controller
 
 
 
-	if (ULocalPlayer* LocalPlayer = PC->GetLocalPlayer())
+	if (ULocalPlayer* LocalPlayer = PC->GetLocalPlayer()) // this gets the local player using the controller (need to check that's what that actually does)
 	{
-		if (UEnhancedInputLocalPlayerSubsystem* InputSystem = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())
+		if (UEnhancedInputLocalPlayerSubsystem* InputSystem = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>()) // checks if it can get the local subsystem that has been assigned in the editor
 		{
-			InputSystem->ClearAllMappings();
-			InputSystem->AddMappingContext(InputMappingContext, 0);
+			InputSystem->ClearAllMappings(); // clears any mapping contexts if they had been assigned by mistake
+			InputSystem->AddMappingContext(InputMappingContext, 0); // assigns the mapping contexts as the highest priority
 		}
 	}
 
-	if(UEnhancedInputComponent* PEI = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	if(UEnhancedInputComponent* PEI = Cast<UEnhancedInputComponent>(PlayerInputComponent)) // checks if the player input component can be cast to the enhanced version
 	{
-		PEI->BindAction(InputActions->m_InputMove, ETriggerEvent::Triggered, this, &ATemplateCharacter::PrintString); 
-	}
+#pragma region Setup Actions Comments
+		/* Bind Action Setup
+		
+		 {
+			 BindAction(UInputAction,
+			 ETriggerEvent,
+			 CharacterObject(this),
+			 Function Reference (&Template::Do Thing)
+			)
+		 }
 
-	/*
-		APlayerController* PC = Cast<APlayerController>(GetController());
+		 ETriggerEvents
+		 {
+			 None         = (0x0),
+			 Triggered    = (1 << 0), Triggering occurred after one or more processing ticks.
+			 Started      = (1 << 1), An event has occurred that has begun Trigger evaluation. Note: Triggered may also occur this frame, but this event will always be fired first.
+			 Ongoing      = (1 << 2), Triggering is still being processed.
+			 Canceled     = (1 << 3), Triggering has been canceled.
+			 Completed    = (1 << 4), The trigger state has transitioned from Triggered to None this frame, i.e. Triggering has finished.
+		 }
+		*/
+#pragma endregion
 
-	// Get the local player subsystem
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer());
-	// Clear out existing mapping, and add our mapping
+		PEI->BindAction(InputActions->m_InputMove, ETriggerEvent::Triggered, this, &ATemplateCharacter::PrintString); // binds an action to the input component
 
-
-
-	*/
-
-	if (UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent))
-	{
-		//Input->BindAction(m_WalkForward, ETriggerEvent::Ongoing, this, &ATemplateCharacter::PrintString);
 	}
 
 }
 
 void ATemplateCharacter::PrintString()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("CHEESE"));
+	GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red, TEXT("I AM PRINTING"));
 }
 
