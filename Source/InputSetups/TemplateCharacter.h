@@ -27,19 +27,19 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-	virtual void PrintString();
+		virtual void PrintString();
 
 public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera")
-	TObjectPtr<class UCameraComponent> m_Camera;
+		TObjectPtr<class UCameraComponent> m_Camera;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera")
-	TObjectPtr<class USpringArmComponent> m_CameraArm;
-
-	UPROPERTY(EditAnywhere,Category = "Input")
-	class UInputMappingContext*  InputMappingContext;
+		TObjectPtr<class USpringArmComponent> m_CameraArm;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
-	class UInputAction* m_WalkForward;
+		class UInputMappingContext* InputMappingContext;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+		class UInputConfigData* InputActions; 
 
 };

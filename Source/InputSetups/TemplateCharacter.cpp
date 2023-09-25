@@ -4,6 +4,7 @@
 #include "TemplateCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "InputConfigData.h"
 
 #include "Components/InputComponent.h"
 #include "EnhancedInputComponent.h"
@@ -23,10 +24,7 @@ ATemplateCharacter::ATemplateCharacter()
 	m_CameraArm->bEnableCameraLag = true;
 	m_CameraArm->bUsePawnControlRotation = true;
 
-
 	m_Camera->AttachToComponent(m_CameraArm, FAttachmentTransformRules::KeepRelativeTransform);
-
-
 
 }
 
@@ -62,6 +60,11 @@ void ATemplateCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		}
 	}
 
+	if(UEnhancedInputComponent* PEI = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		PEI->BindAction(InputActions->m_InputMove, ETriggerEvent::Triggered, this, &ATemplateCharacter::PrintString); 
+	}
+
 	/*
 		APlayerController* PC = Cast<APlayerController>(GetController());
 
@@ -75,7 +78,7 @@ void ATemplateCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 	if (UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		Input->BindAction(m_WalkForward, ETriggerEvent::Ongoing, this, &ATemplateCharacter::PrintString);
+		//Input->BindAction(m_WalkForward, ETriggerEvent::Ongoing, this, &ATemplateCharacter::PrintString);
 	}
 
 }
