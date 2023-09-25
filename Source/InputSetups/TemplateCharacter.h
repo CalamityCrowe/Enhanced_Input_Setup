@@ -27,7 +27,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-	virtual void PrintString(); 
+	virtual void PrintString();
 
 public:
 
@@ -36,7 +36,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera")
 	TObjectPtr<class USpringArmComponent> m_CameraArm;
 
-	//UPROPERTY(EditAnywhere,Category = "Input")
-	//TSoftObjectPtr<UInputMappingContext> InputMappingContext;
-	
+	UPROPERTY(EditAnywhere,Category = "Input")
+	class UInputMappingContext*  InputMappingContext;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	class UInputAction* m_WalkForward;
+
 };

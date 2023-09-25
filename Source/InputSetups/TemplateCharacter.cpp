@@ -8,6 +8,7 @@
 #include "Components/InputComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "InputMappingContext.h"
 
 // Sets default values
 ATemplateCharacter::ATemplateCharacter()
@@ -48,16 +49,39 @@ void ATemplateCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	if(UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	APlayerController* PC = Cast<APlayerController>(GetController());
+
+
+
+	if (ULocalPlayer* LocalPlayer = PC->GetLocalPlayer())
 	{
-		//Input->BindAction(,)
-		
+		if (UEnhancedInputLocalPlayerSubsystem* InputSystem = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())
+		{
+			InputSystem->ClearAllMappings();
+			InputSystem->AddMappingContext(InputMappingContext, 0);
+		}
+	}
+
+	/*
+		APlayerController* PC = Cast<APlayerController>(GetController());
+
+	// Get the local player subsystem
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer());
+	// Clear out existing mapping, and add our mapping
+
+
+
+	*/
+
+	if (UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		Input->BindAction(m_WalkForward, ETriggerEvent::Ongoing, this, &ATemplateCharacter::PrintString);
 	}
 
 }
 
 void ATemplateCharacter::PrintString()
 {
-	GEngine->AddOnScreenDebugMessage(-1,2,FColor::Red,TEXT("CHEESE")); 
+	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, TEXT("CHEESE"));
 }
 
