@@ -29,6 +29,11 @@ public:
 	UFUNCTION() // this is used to tag a function for getting used for the inputs or if it needs to be used in the editor somewhere
 		virtual void PrintString();
 
+	UFUNCTION()
+	void Move(const FInputActionValue& Value); 
+
+	UFUNCTION()
+	void TurnCamera(const FInputActionValue& Value); 
 public:
 
 	// any object that has class added in front of it gets the header included later in the cpp file to reduce overhead costs

@@ -23,10 +23,10 @@ ATemplateCharacter::ATemplateCharacter()
 	m_Camera = CreateOptionalDefaultSubobject<UCameraComponent>(TEXT("camera"));
 
 	m_CameraArm = CreateOptionalDefaultSubobject<USpringArmComponent>(TEXT("springArm"));
-	m_CameraArm->SetupAttachment(RootComponent); 
-	m_CameraArm->TargetArmLength = 300; // sets the distance of the arm to 300, this means that the camera is X distance away from the root of the arm
-	m_CameraArm->bEnableCameraLag = true; // gives the illusion of the camera chasing the player
-	m_CameraArm->bUsePawnControlRotation = true; // rotates the spring arm to be the same as the controller rotation
+	m_CameraArm->SetupAttachment(RootComponent);
+	m_CameraArm->TargetArmLength = 300;
+	m_CameraArm->bEnableCameraLag = true;
+	m_CameraArm->bUsePawnControlRotation = true;
 
 	m_Camera->AttachToComponent(m_CameraArm, FAttachmentTransformRules::KeepRelativeTransform);
 
@@ -125,17 +125,17 @@ void ATemplateCharacter::Move(const FInputActionValue& Value)
 
 void ATemplateCharacter::TurnCamera(const FInputActionValue& Value)
 {
-	if(Controller) // checks if the controller is valid
+	if(Controller)
 	{
-		const FVector2D TurnRate = Value.Get<FVector2D>(); // gets the vector 2d from the input action 
+		const FVector2D TurnRate = Value.Get<FVector2D>(); 
 
-		if(TurnRate.Y != 0 ) // checks if the y axis is not 0, this means that the mouse or whatever the input is has moved slightly for it to register a vertical input
+		if(TurnRate.Y != 0 )
 		{
-			AddControllerPitchInput(TurnRate.Y); // applies the vertical input of the mouse into the controller pitch input
+			AddControllerPitchInput(TurnRate.Y); 
 		}
-		if (TurnRate.X != 0)  // checks if the x axis is not 0, this means that the mouse or whatever the input is has moved slightly for it to register a horizontal input
+		if (TurnRate.X != 0) 
 		{
-			AddControllerYawInput(TurnRate.X); // applies the horizontal input of the mouse into the controller yaw input
+			AddControllerYawInput(TurnRate.X);
 		}
 	}
 }
